@@ -11,11 +11,12 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import java.io.IOException;
 
-import org.usfirst.frc.team2557.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2557.robot.commands.*;
 import org.usfirst.frc.team2557.robot.commands.LaserTrackingCommand;
+import org.usfirst.frc.team2557.robot.subsystems.ArmHeight;
 import org.usfirst.frc.team2557.robot.subsystems.Drivetrain2;
 import org.usfirst.frc.team2557.robot.subsystems.ExampleSubsystem;
-import org.usfirst.frc.team2557.robot.subsystems.LaserTracking;
+import org.usfirst.frc.team2557.robot.subsystems.*;
 //import org.usfirst.frc.team2557.robot.commands.RFArrayCommand;
 
 /**
@@ -33,11 +34,13 @@ public class Robot extends IterativeRobot {
 	public static LaserTracking laserTracking = new LaserTracking();
 	public static LidarRangeFinder lidarRangeFinder = new LidarRangeFinder();
 	public static Drivetrain2 drivetrain2 = new Drivetrain2();
+	public static ArmHeight armHeight = new ArmHeight();
 
     Command autonomousCommand;
     //Command RFArrayCommand;
     Command LaserTrackingCommand;
     Command DriveGyroCommand;
+    Command ArmHeightCommand1;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -57,6 +60,7 @@ public class Robot extends IterativeRobot {
         //RFArrayCommand = new RFArrayCommand();
         LaserTrackingCommand = new LaserTrackingCommand();
         //DriveGyroCommand = new DriveGyroCommand();
+        ArmHeightCommand1 = new ArmHeightCommand1();
         
     }
 	
