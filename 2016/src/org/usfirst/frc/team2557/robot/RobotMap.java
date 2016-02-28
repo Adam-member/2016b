@@ -2,6 +2,7 @@ package org.usfirst.frc.team2557.robot;
 
 import org.usfirst.frc.team2557.sensors.LidarRangeFinder;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -48,7 +49,7 @@ public class RobotMap {
 	public static Counter rightEnc;
 	public static Counter leftEnc;
 	
-	public static Gyro gyro;
+	public static AnalogGyro gyro;
 	public static double gyroValue;
 	public static double gyroOld;
 	
@@ -77,6 +78,8 @@ public class RobotMap {
 	
 	public static void init(){
 		LidarSensor = new LidarRangeFinder();
+		gyro = new AnalogGyro(0);
+		leftMotor = new CANTalon(2);
 	}
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.

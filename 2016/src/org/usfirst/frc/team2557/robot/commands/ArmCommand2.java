@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LaserTrackingCommand extends Command {
+public class ArmCommand2 extends Command {
 
-    public LaserTrackingCommand() {
-    	requires(Robot.laserTracking);
+    public ArmCommand2() {
+    	requires(Robot.arm);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -21,7 +21,7 @@ public class LaserTrackingCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.laserTracking.adjustForDefense();
+    	Robot.arm.armTest2();
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -1,13 +1,21 @@
 package org.usfirst.frc.team2557.robot.commands;
+import org.usfirst.frc.team2557.robot.Robot;
+
+import edu.wpi.first.wpilibj.command.Command;
+
+/*package org.usfirst.frc.team2557.robot.commands;
+
+import org.usfirst.frc.team2557.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-/*public class ArmHeightCommand1 extends Command {
+public class LaserTrackingC extends Command {
 
-    public ArmHeightCommand1() {
+    public LaserTrackingC() {
+    	requires(Robot.laserTracking);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -18,7 +26,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.
+    	Robot.laserTracking.adjustForDefense();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,4 +43,3 @@ import edu.wpi.first.wpilibj.command.Command;
     protected void interrupted() {
     }
 }
-*/

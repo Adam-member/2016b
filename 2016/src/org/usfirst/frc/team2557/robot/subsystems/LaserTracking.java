@@ -10,7 +10,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team2557.sensors.LidarRangeFinder.LidarData;
 
+/*import org.usfirst.frc.team2557.robot.subsystems.Shapes; */
+
 import java.lang.Math;
+import java.util.ArrayList;
 //import java.util.Arrays;
 
 /**
@@ -66,7 +69,10 @@ public class LaserTracking extends Subsystem {
     	//Arrays myTestArray = Arrays.
     	LidarData distanceData[] = new LidarData[90];
     	LidarData currentShortest = null;
+    	Shapes currentShape = null;
+    	ArrayList<Shapes> shapeList = new ArrayList<Shapes>();
     	int myAngle = 0;
+    	int emptyCount = 0;
     	for (myAngle = 0; myAngle < 90; myAngle++) {
     		myDistances[myAngle] = RobotMap.LidarSensor.getData(myAngle + 45).getDistance();
     		
@@ -78,18 +84,51 @@ public class LaserTracking extends Subsystem {
     		
     		if (myDistances[myAngle] < 2000 && myDistances[myAngle] != 0) {
     			distanceData[dataCount] = RobotMap.LidarSensor.getData(myAngle + 45);
-				
-    			if (currentShortest == null) {
+
+    			if (currentShape == null) {
+    				currentShape = new Shapes();
 					currentShortest = distanceData[dataCount];
 					dataCount++;
-					continue;
-				}
+					
+					currentShape.startDistance = currentShortest.getDistance();
+					currentShape.startAngle = currentShortest.getAngle();
+					
+					currentShape.closestDistance = currentShape.startDistance;
+					currentShape.closestAngle = currentShape.startAngle;
+					
+					currentShape.lastDistance = currentShape.startDistance;
+					currentShape.lastAngle = currentShape.startAngle;
+					
+					emptyCount = 0;
+					
+                    continue;
+    			}
 				
    				if (currentShortest.getDistance() > distanceData[dataCount].getDistance()) {
-   					currentShortest = distanceData[dataCount];   					
+   					currentShortest = distanceData[dataCount];
+   					currentShape.closestDistance = currentShortest.getDistance();
+   					currentShape.closestAngle = currentShortest.getAngle();
    				}
+   				
+   				currentShape.lastDistance = distanceData[dataCount].getDistance();
+   				currentShape.lastAngle = distanceData[dataCount].getAngle();
     			
     			dataCount++;
+    		}
+    		
+    		// end of object detection
+    		if (myDistances[myAngle] > 2000 || emptyCount > 2) {
+    			emptyCount = 0;
+    			// store shape
+    			if (currentShape != null) {
+    				shapeList.add(currentShape);
+    			}
+    			
+    			currentShape = null;
+    		}
+    		
+    		if (myDistances[myAngle] == 0) {
+    			emptyCount++;
     		}
     	}
 
@@ -113,26 +152,26 @@ public class LaserTracking extends Subsystem {
     	
 //    		notDone = true;
     	if (notDone) {
-  		laserStartInches = (double) distanceData[0].getDistance();
-   		laserStartAngle = distanceData[0].getAngle();
+  		    laserStartInches = (double) distanceData[0].getDistance();
+   		    laserStartAngle = distanceData[0].getAngle();
 
-    	lowPointInches = (double) currentShortest.getDistance();
-    	lowPointAngle = currentShortest.getAngle();
+    	    lowPointInches = (double) currentShortest.getDistance();
+    	    lowPointAngle = currentShortest.getAngle();
     	    	
-   		laserEndInches = (double) distanceData[dataCount - 1].getDistance();
+   		    laserEndInches = (double) distanceData[dataCount - 1].getDistance();
     	}
-    	if(laserEndInches == (double) distanceData[dataCount - 1].getDistance()){
+    	/*if(distanceData[dataCount - 1] != null && laserEndInches == (double) distanceData[dataCount - 1].getDistance()){
     		objectEnd = true;
-    	}
+    	}*/
     		
     	
-    	//x = (int) RobotMap.servoCenterAngle; 
-    	//if(notDone == true && distanceData[x].getDistance() < distanceData[x-1].getDistance()){
-    		//lowPointInches = RobotMap.laserInches;
-    		//lowPointAngle = RobotMap.servoCenterAngle;
+    	/*x = (int) RobotMap.servoCenterAngle; 
+    	if(notDone == true && distanceData[x].getDistance() < distanceData[x-1].getDistance()){
+    		lowPointInches = RobotMap.laserInches;
+    		lowPointAngle = RobotMap.servoCenterAngle;
     		
-    	//}
-
+    	}
+*/
 		firstLength = Math.pow(Math.cos((laserStartAngle-90) / hitInches) - Math.cos((lowPointAngle-90) / lowPointInches), 2);
 		secondLength = Math.pow(Math.sin((hitAngle-90) / hitInches) - Math.sin((lowPointAngle-90) / lowPointInches), 2);
 		side1 = Math.sqrt(firstLength + secondLength);

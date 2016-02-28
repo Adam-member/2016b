@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import java.io.IOException;
 
 import org.usfirst.frc.team2557.robot.commands.*;
-import org.usfirst.frc.team2557.robot.commands.LaserTrackingCommand;
 import org.usfirst.frc.team2557.robot.subsystems.ArmHeight;
 import org.usfirst.frc.team2557.robot.subsystems.Drivetrain2;
 import org.usfirst.frc.team2557.robot.subsystems.ExampleSubsystem;
@@ -35,12 +34,15 @@ public class Robot extends IterativeRobot {
 	public static LidarRangeFinder lidarRangeFinder = new LidarRangeFinder();
 	public static Drivetrain2 drivetrain2 = new Drivetrain2();
 	public static ArmHeight armHeight = new ArmHeight();
+	public static Arm arm = new Arm();
 
     Command autonomousCommand;
     //Command RFArrayCommand;
-    Command LaserTrackingCommand;
+    Command laserTrackingCommand;
     Command DriveGyroCommand;
     Command ArmHeightCommand1;
+    Command ArmCommand;
+    Command ArmCommand2;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -58,9 +60,11 @@ public class Robot extends IterativeRobot {
         // instantiate the command used for the autonomous period
         autonomousCommand = new ExampleCommand();
         //RFArrayCommand = new RFArrayCommand();
-        LaserTrackingCommand = new LaserTrackingCommand();
+        laserTrackingCommand = new LaserTrackingC();
+        ArmCommand = new ArmCommand();
+        ArmCommand2 = new ArmCommand2();
         //DriveGyroCommand = new DriveGyroCommand();
-        ArmHeightCommand1 = new ArmHeightCommand1();
+        //ArmHeightCommand1 = new ArmHeightCommand1();
         
     }
 	
@@ -101,7 +105,9 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        LaserTrackingCommand.start();
+        laserTrackingCommand.start();
+        ArmCommand.start();
+        ArmCommand2.start();
         //RFArrayCommand.start();
     }
     
