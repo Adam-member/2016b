@@ -73,7 +73,7 @@ public class LaserTracking extends Subsystem {
     	ArrayList<Shapes> shapeList = new ArrayList<Shapes>();
     	int myAngle = 0;
     	int emptyCount = 0;
-    	for (myAngle = 0; myAngle < 90; myAngle++) {
+    	for (myAngle = 325; myAngle > 324 || myAngle < 56; myAngle++) {
     		myDistances[myAngle] = RobotMap.LidarSensor.getData(myAngle + 45).getDistance();
     		
     		System.out.print(myDistances[myAngle] + " ");
@@ -129,6 +129,10 @@ public class LaserTracking extends Subsystem {
     		
     		if (myDistances[myAngle] == 0) {
     			emptyCount++;
+    		}
+    		// set myAngle to -1 to start at zero in next loop
+    		if(myAngle > 359){
+    			myAngle = -1;
     		}
     	}
 
@@ -216,10 +220,12 @@ public class LaserTracking extends Subsystem {
 		}
 		SmartDashboard.putNumber("width", width);
 		SmartDashboard.putNumber("length", length);
-		SmartDashboard.putNumber("laserStartInches", laserStartInches);
-		SmartDashboard.putNumber("laserEndInches", laserEndInches);
+		SmartDashboard.putNumber("laserStartMils", laserStartInches);
+		SmartDashboard.putNumber("laserEndMils", laserEndInches);
 		//SmartDashboard.putNumber("RFValue", RobotMap.RFArray[5]);
-		SmartDashboard.putNumber("lowPointInches", lowPointInches);
+		SmartDashboard.putNumber("lowPointMils", lowPointInches);
+		SmartDashboard.putNumber("lowAngle", lowPointAngle);
+		SmartDashboard.putNumber("startAngle", laserStartAngle);
     } 	
 
 }
