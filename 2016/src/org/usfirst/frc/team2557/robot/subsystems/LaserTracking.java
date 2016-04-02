@@ -97,12 +97,7 @@ public class LaserTracking extends Subsystem {
         			
         			currentShape = null;
         		}
-    			
-        		// set myAngle to -1 to start at zero in next loop
-        		if(myAngle > 359){
-        			myAngle = -1;
-        		}
-        		
+    			        		
     			continue;
     		}
 
@@ -157,12 +152,7 @@ public class LaserTracking extends Subsystem {
     			}
     			
     			currentShape = null;
-    		}
-    		
-    		// set myAngle to -1 to start at zero in next loop
-    		if(myAngle > 359){
-    			myAngle = -1;
-    		}
+    		}    		
     	}
 
     	//minSweepAngle = -22;
