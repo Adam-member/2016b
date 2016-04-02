@@ -65,25 +65,57 @@ public class LaserTracking extends Subsystem {
     	//RobotMap.laserInches = RobotMap.LidarSensor.getData(x).getDistance();
     	int dataCount = 0;
     	
-    	int myDistances[] = new int[90];
+    	// An array to hold 90 degrees worth of distances.
+    	int myDistances[] = new int[360];
     	//Arrays myTestArray = Arrays.
-    	LidarData distanceData[] = new LidarData[90];
+    	LidarData distanceData[] = new LidarData[360];
     	LidarData currentShortest = null;
     	Shapes currentShape = null;
+    	
+    	// An array to hold shapes.
+    	// TODO look at the shape objects
     	ArrayList<Shapes> shapeList = new ArrayList<Shapes>();
     	int myAngle = 0;
     	int emptyCount = 0;
-    	for (myAngle = 325; myAngle > 324 || myAngle < 56; myAngle++) {
-    		myDistances[myAngle] = RobotMap.LidarSensor.getData(myAngle + 45).getDistance();
+    	
+    	// Loop from 325 degrees to 55 degrees
+    	// TODO adjust angles for the lidar's true direction.
+    	for (myAngle = 0; myAngle < 360; myAngle++) {
+    		int currentDistance = RobotMap.LidarSensor.getData(myAngle).getDistance();
+    		
+    		// Distances less than 15 mm are meaningless.
+    		if (currentDistance < 15) {
+    			emptyCount++;
+    			
+        		// end of object detection
+        		if (emptyCount > 5) {
+        			emptyCount = 0;
+        			// store shape
+        			if (currentShape != null) {
+        				shapeList.add(currentShape);
+        			}
+        			
+        			currentShape = null;
+        		}
+    			
+        		// set myAngle to -1 to start at zero in next loop
+        		if(myAngle > 359){
+        			myAngle = -1;
+        		}
+        		
+    			continue;
+    		}
+
+    		myDistances[myAngle] = currentDistance;
     		
     		System.out.print(myDistances[myAngle] + " ");
     		
-    		if (myAngle > 0 && myAngle % 5 == 0) {
+    		if (dataCount > 0 && dataCount % 5 == 0) {
     			System.out.println();
     		}
     		
     		if (myDistances[myAngle] < 2000 && myDistances[myAngle] != 0) {
-    			distanceData[dataCount] = RobotMap.LidarSensor.getData(myAngle + 45);
+    			distanceData[dataCount] = RobotMap.LidarSensor.getData(myAngle);
 
     			if (currentShape == null) {
     				currentShape = new Shapes();
@@ -117,7 +149,7 @@ public class LaserTracking extends Subsystem {
     		}
     		
     		// end of object detection
-    		if (myDistances[myAngle] > 2000 || emptyCount > 2) {
+    		if (myDistances[myAngle] > 2000) {
     			emptyCount = 0;
     			// store shape
     			if (currentShape != null) {
@@ -127,9 +159,6 @@ public class LaserTracking extends Subsystem {
     			currentShape = null;
     		}
     		
-    		if (myDistances[myAngle] == 0) {
-    			emptyCount++;
-    		}
     		// set myAngle to -1 to start at zero in next loop
     		if(myAngle > 359){
     			myAngle = -1;
