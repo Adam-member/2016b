@@ -65,7 +65,7 @@ public class LaserTracking extends Subsystem {
     	//RobotMap.laserInches = RobotMap.LidarSensor.getData(x).getDistance();
     	int dataCount = 0;
     	
-    	// An array to hold 90 degrees worth of distances.
+    	// An array to hold 360 degrees worth of distances.
     	int myDistances[] = new int[360];
     	//Arrays myTestArray = Arrays.
     	LidarData distanceData[] = new LidarData[360];
@@ -78,7 +78,7 @@ public class LaserTracking extends Subsystem {
     	int myAngle = 0;
     	int emptyCount = 0;
     	
-    	// Loop from 325 degrees to 55 degrees
+    	// Loop from 0 degrees to 359 degrees
     	// TODO adjust angles for the lidar's true direction.
     	for (myAngle = 0; myAngle < 360; myAngle++) {
     		int currentDistance = RobotMap.LidarSensor.getData(myAngle).getDistance();
